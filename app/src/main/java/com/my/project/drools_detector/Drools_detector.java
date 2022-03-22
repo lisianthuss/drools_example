@@ -26,26 +26,28 @@ public class Drools_detector {
         execute(kc);
     }
     public static void execute(KieContainer kc) {
-        System.out.println("New KeySession");
+        Logger log = LoggerFactory.getLogger(Drools_detector.class);
+
+        log.info("New KeySession");
         KieSession ksession = kc.newKieSession("ksession1");
 
-        System.out.println("set global");
+        log.info("set global");
         ksession.setGlobal("list", new ArrayList<Object>());
 
-        System.out.println("add Event Listener");
+        log.info("add Event Listener");
         ksession.addEventListener(new DebugAgendaEventListener());
         ksession.addEventListener(new DebugRuleRuntimeEventListener());
 
-        System.out.println("Set message");
+        log.info("Set message");
         final Message message = new Message();
         message.setMessage("Hello World");
         message.setStatus(Message.HELLO);
         ksession.insert(message);
 
-        System.out.println("fire all rules");
+        log.info("fire all rules");
         ksession.fireAllRules();
 
-        System.out.println("dispose");
+        log.info("dispose");
         ksession.dispose();
     }
 
